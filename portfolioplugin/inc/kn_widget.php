@@ -18,7 +18,7 @@
 				echo $args['before_title'] . $title . $args['after_title'];
 			}
 			
-			/* This reads the posts of custom post type kn_courses, it will sort ascending based on post titles . Reference - https://codex.wordpress.org/Class_Reference/WP_Query#Custom_Field_Parameters */
+			/* This reads the posts of custom post type kn_courses, it will sort ascending based on post titles . Reference - https://codex.wordpress.org/Class_Reference/WP_Query */
 			$query = new WP_Query( array( 'post_type' => 'kn_courses', 
 										  'orderby' => 'title',
 										  'order'   => 'ASC'
@@ -27,7 +27,6 @@
 				<?php  /* While loop to dispaly post title displaying it as a link */
 				while ($query -> have_posts()) : $query -> the_post();  ?>
 					<li><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></li>
-					<?php get_the_post_thumbnail(the_post()); ?>
 					<?php		
 				endwhile;
 				wp_reset_postdata(); /* This function restores the global $post variable of the main query loop after a widget query loop using new WP_Query. It restores the $post variable to the current post in the main query. */
