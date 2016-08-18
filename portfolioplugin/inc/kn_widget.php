@@ -14,17 +14,18 @@
 			
 			echo $args['before_widget'];
 			
-			if($title){
-				echo $args['before_title'] . $title . $args['after_title'];
+			if($title){ /* If $title is not empty then do the following */
+				echo $args['before_title'] . $title . $args['after_title']; /* Displays before course link, course and after course link  */
 			}
 			
 			/* This reads the posts of custom post type kn_courses, it will sort ascending based on post titles . Reference - https://codex.wordpress.org/Class_Reference/WP_Query */
-			$query = new WP_Query( array( 'post_type' => 'kn_courses', 
-										  'orderby' => 'title',
-										  'order'   => 'ASC'
+			$query = new WP_Query( array( 'post_type' 		=> 'kn_courses', 
+										  'orderby' 		=> 'title',
+										  'order'   		=> 'ASC',
+										  'posts_per_page' 	=> 5     /* Displays the set number of posts to five */
 										) ); ?>
 			<ul>
-				<?php  /* While loop to dispaly post title displaying it as a link */
+				<?php  /* While loop to dispaly post title displaying them as a link */
 				while ($query -> have_posts()) : $query -> the_post();  ?>
 					<li><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></li>
 					<?php		
@@ -33,16 +34,13 @@
 				?>
 			</ul>
 			<?php  
-			echo $args['after_widget'];
-					
+			echo $args['after_widget'];		
 		}
 		
-		/* Backend Form - This function displays the available options in the Widget Admin form */		
+		/* Backend Forms - These functions displays the available options in the Widget Admin form */		
 		public function form($instance){
-			$instance = wp_parse_args((array) $instance, array('title'=>'','count'=> 0, 'dropdown'=> ''));
+			$instance = wp_parse_args((array) $instance, array('title'=>''));
 			$title = strip_tags($instance['title']);
-			$count = $instance['count'] ? 'checked="checked"' : '';
-			$dropdown = $instance['dropdown'] ? 'checked="checked"' : '';
 			?>
 			<p>
 				<label for="<?php echo $this->get_field_id('title'); ?>">Title:</label> 
@@ -55,9 +53,7 @@
 			$instance = $old_instance;
 			$new_instance = wp_parse_args((array) $new_instance, array('title' => ''));
 			$instance['title'] = strip_tags($new_instance['title']);
-			
 			return $instance;	
 		}			
 }
-	
 add_action('widgets_init',function(){ register_widget('CourseList'); }); /* Tell the wordpress that the widget has been created and display it in the list of available widgets */

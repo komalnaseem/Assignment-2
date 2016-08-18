@@ -7,7 +7,7 @@
 * Author URI: http://phoenix.sheridanc.on.ca/~ccit3680/ 
 * Version: 1.0 
 */
-function my_plugin_styles(){
+function my_plugin_styles(){	/* Register the theme's style.css to be used.  */
 	wp_enqueue_style('plugin-style', plugins_url('/css/style.css', __FILE__));
 }
 add_action( 'wp_enqueue_scripts', 'my_plugin_styles' );
@@ -32,8 +32,8 @@ function create_post_type() {			/* https://codex.wordpress.org/Post_Types - Expl
 	  'editor',								  /* This enables the content area of the course */
 	  'author',								  /* !!!Extra Functionality!!! - This enables author of the course post */
 	  'thumbnail'							  /* This enables the featured image of the course */
-	  ) 
-    )	
+	     ) 
+       )	
   );
 };
 
@@ -44,3 +44,17 @@ function create_post_type() {			/* https://codex.wordpress.org/Post_Types - Expl
  * path. This will ensure that when this plugin is installed by anyone on their site and it will work because of relative path used 
  */
 require plugin_dir_path( __FILE__ ) . '/inc/kn_widget.php'; 
+
+/* 
+* Shortcode to display Course taken at which school and it have the link to the school website 
+*/	
+function schoollink($atts){
+		extract(shortcode_atts(
+			array(
+				'linktitle' => 'Course Taken At', 		/* This is the default link title */
+				'schoollink' => 'http://google.com'		/* This is the link to the school website, by default it will go to google.com */
+			),$atts
+		));
+		return '<p class="the-link"><a href="' . $schoollink . '">' . $linktitle . '</a></p>'; /* This will display the link title and link to the school website */
+}
+add_shortcode('schoollink','schoollink');				/* This adds a hook for a shortcode tag schoollink */
