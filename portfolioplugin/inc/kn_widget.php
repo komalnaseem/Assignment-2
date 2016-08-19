@@ -1,7 +1,7 @@
 <?php
-	class CourseList extends WP_Widget{ /* Create the Widget */
+	class CourseList extends WP_Widget{ /* Creates the widget */
 		
-		public function __construct(){ /* Initialize the widget */
+		public function __construct(){ /* Initializes the widget */
 			$widget_ops = array(
 				'classname' => 'widget_archive',
 				'description' => 'A Course list of your site'
@@ -9,16 +9,16 @@
 			parent::__construct('course_list','Course List', $widget_ops);
 		}
 		
-		public function widget($args, $instance){ /* Declare what Widget displays */ 
+		public function widget($args, $instance){ /* Declares what the widget displays */ 
 			$title = apply_filters('widget_title', empty($instance['title']) ? 'Course List' : $instance['title'], $instance, $this->id_base); /* Displays the widget title */
 			
 			echo $args['before_widget'];
 			
-			if($title){ /* If $title is not empty then do the following */
-				echo $args['before_title'] . $title . $args['after_title']; /* Displays before course link, course and after course link  */
+			if($title){ /* If $title is not empty then do the following, which is done by the word echo */
+				echo $args['before_title'] . $title . $args['after_title']; /* Displays before the course link, in the course and after the course link  */
 			}
 			
-			/* This reads the posts of custom post type kn_courses, it will sort ascending based on post titles . Reference - https://codex.wordpress.org/Class_Reference/WP_Query */
+			/* This reads the posts of custom post type kn_courses, and it will sort in an ascending order based on post titles . Reference - https://codex.wordpress.org/Class_Reference/WP_Query */
 			$query = new WP_Query( array( 'post_type' 		=> 'kn_courses', 
 										  'orderby' 		=> 'title',
 										  'order'   		=> 'ASC',
@@ -30,7 +30,7 @@
 					<li><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></li>
 					<?php		
 				endwhile;
-				wp_reset_postdata(); /* This function restores the global $post variable of the main query loop after a widget query loop using new WP_Query. It restores the $post variable to the current post in the main query. */
+				wp_reset_postdata(); /* This function restores the global $post variable of the main query loop after a widget query loop using a new WP_Query. It restores the $post variable to the current post in the main query. */
 				?>
 			</ul>
 			<?php  
@@ -56,4 +56,4 @@
 			return $instance;	
 		}			
 }
-add_action('widgets_init',function(){ register_widget('CourseList'); }); /* Tell the wordpress that the widget has been created and display it in the list of available widgets */
+add_action('widgets_init',function(){ register_widget('CourseList'); }); /* Tells wordpress that the widget has been created and to display it in the list of available widgets */
